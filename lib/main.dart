@@ -52,7 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: BlocListener<CounterCubit, CounterState>(
+  listener: (context, state) {
+    if(state.isIncrement == true){
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incremented!'),duration: Duration(milliseconds: 300),));
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Decremented!'),duration: Duration(milliseconds: 300),));
+    }
+  },
+  child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -90,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(100.0),
         child: Row(
@@ -120,4 +129,5 @@ class _MyHomePageState extends State<MyHomePage> {
               value: BlocProvider<Name Bloc>.of(context) ,
               child: Wrap Widget here,
             )
+
  */
