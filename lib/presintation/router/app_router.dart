@@ -1,6 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/logic/cubit/counter_cubit.dart';
+import 'package:learn_bloc/logic/cubit/counter_cubit/counter_cubit.dart';
+import 'package:learn_bloc/logic/cubit/interner_cubit/internet_cubit.dart';
 import 'package:learn_bloc/presintation/screens/home_screen.dart';
 import 'package:learn_bloc/presintation/screens/second_screen.dart';
 
@@ -10,32 +11,26 @@ class Routes {
   static const String thirdRoute = '/third';
 }
 
-final CounterCubit counterCubit = CounterCubit();
+final CounterCubit counterCubit = CounterCubit(internetCubit: InternetCubit(connectivity: Connectivity()));
 
 class AppRoutes {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
         return MaterialPageRoute(
-            builder: ((context) => BlocProvider.value(
-                  value: counterCubit,
-                  child: const HomeScreen(
-                      title: 'Home Screen', color: Colors.blue),
-                )));
+            builder: ((context) => const HomeScreen(
+                      title: 'Home Screen', color: Colors.blue)
+                ));
       case Routes.secondRoute:
         return MaterialPageRoute(
-            builder: ((context) => BlocProvider.value(
-                  value: counterCubit,
-                  child: const SecondScreen(
-                      title: 'Second Screen', color: Colors.redAccent),
-                )));
+            builder: ((context) => const SecondScreen(
+                      title: 'Second Screen', color: Colors.redAccent)
+                ));
       case Routes.thirdRoute:
         return MaterialPageRoute(
-            builder: ((context) => BlocProvider.value(
-                  value: counterCubit,
-                  child: const HomeScreen(
-                      title: 'third Screen', color: Colors.greenAccent),
-                )));
+            builder: ((context) =>  const HomeScreen(
+                      title: 'third Screen', color: Colors.greenAccent)
+                ));
     }
 
     return undefinedRoute();

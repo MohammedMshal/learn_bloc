@@ -1,38 +1,39 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:learn_bloc/logic/cubit/counter_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_bloc/logic/cubit/counter_cubit/counter_cubit.dart';
+import 'package:learn_bloc/logic/cubit/interner_cubit/internet_cubit.dart';
 import 'package:learn_bloc/presintation/router/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp(connectivity:Connectivity() ,));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  final Connectivity connectivity;
+  const MyApp({super.key,required this.connectivity});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-final CounterCubit counterCubit = CounterCubit();
-
-
-class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     //Create Bloc Provider
-    return  MaterialApp(
-      title:'Counter Test',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<InternetCubit>(
+          create: (context) => InternetCubit(connectivity: connectivity),
+        ),
+        BlocProvider(      create: (context) => CounterCubit(internetCubit: InternetCubit(connectivity: connectivity) ),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Counter Test',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        onGenerateRoute: AppRoutes.onGenerateRoute,
       ),
-      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
-  @override
-  void dispose() {
-    counterCubit.close();
-    super.dispose();
-  }
+
 }
 

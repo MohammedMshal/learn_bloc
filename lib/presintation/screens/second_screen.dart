@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/cubit/counter_cubit.dart';
+import '../../constans/constans.dart';
+import '../../logic/cubit/counter_cubit/counter_cubit.dart';
+import '../../logic/cubit/interner_cubit/internet_cubit.dart';
 
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key, required this.title, required this.color});
@@ -20,8 +22,22 @@ class SecondScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
+              BlocBuilder<InternetCubit, InternetState>(
+                builder: (context, state) {
+                  if (state is InternetConnection &&
+                      state.connectionType == ConnectionType.mobile) {
+                    return const Text(
+                      'Connection Mobile',
+                    );
+                  }else if (state is InternetConnection &&
+                      state.connectionType == ConnectionType.wifi){
+                    return const Text(
+                      'Connection Mobile',
+                    );
+                  }else {
+                    return const CircularProgressIndicator();
+                  }
+                },
               ),
               //Rebuild Screen with Bloc Builder
               BlocBuilder<CounterCubit, CounterState>(
@@ -64,7 +80,7 @@ class SecondScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
-                  key: const Key('1'),
+                  heroTag: 'btn3',
                   onPressed:(){
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
@@ -72,7 +88,7 @@ class SecondScreen extends StatelessWidget {
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
-                  key: const Key('2'),
+                  heroTag: 'btn4',
                   onPressed: (){
                     BlocProvider.of<CounterCubit>(context).decrement();
                   },
