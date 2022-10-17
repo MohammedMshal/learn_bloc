@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<InternetCubit>(
-          create: (context) => InternetCubit(connectivity: connectivity),
+          create: (internetContext) => InternetCubit(connectivity: connectivity),
         ),
-        BlocProvider(      create: (context) => CounterCubit(internetCubit: InternetCubit(connectivity: connectivity) ),
+        BlocProvider(create: (counterCubitContext) => CounterCubit(internetCubit: InternetCubit(connectivity: connectivity) ),
         )
       ],
       child: MaterialApp(

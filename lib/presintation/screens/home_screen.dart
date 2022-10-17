@@ -15,12 +15,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<InternetCubit, InternetState>(
       listener: (context, state) {
+        context.select((value) => value)
         if (state is InternetConnection &&
             state.connectionType == ConnectionType.mobile) {
-          BlocProvider.of<CounterCubit>(context).decrement();
+          context.read<CounterCubit>().decrement();
         } else if (state is InternetConnection &&
             state.connectionType == ConnectionType.wifi) {
-          BlocProvider.of<CounterCubit>(context).increment();
+          context.read<CounterCubit>().increment();
         }
       },
       child: Scaffold(
@@ -37,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                   if (state is InternetConnection &&
                       state.connectionType == ConnectionType.mobile) {
                     return Text(
-                      'Connection Mobile',
+                      'Mobile',
                       style: Theme.of(context).textTheme.headline3!.copyWith(
                           color: Colors.red
                       ),
@@ -45,10 +46,11 @@ class HomeScreen extends StatelessWidget {
                   } else if (state is InternetConnection &&
                       state.connectionType == ConnectionType.wifi) {
                     return Text(
-                      'Connection WIFI',
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                        color: Colors.greenAccent
-                      ),
+                      'WIFI',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3!
+                          .copyWith(color: Colors.greenAccent),
                     );
                   } else {
                     return const CircularProgressIndicator();
@@ -56,7 +58,24 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               //Rebuild Screen with Bloc Builder
-              BlocBuilder<CounterCubit, CounterState>(
+              BlocConsumer<CounterCubit, CounterState>(
+                listener: (consumerContext, state) {
+                  if (state.isIncrement == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Incremented!!'),
+                      duration: Duration(
+                        milliseconds: 300,
+                      ),
+                    ));
+                  } else if (state.isIncrement == false) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Decremented!!'),
+                      duration: Duration(
+                        milliseconds: 300,
+                      ),
+                    ));
+                  }
+                },
                 //control rebuild widget
                 //buildWhen: (previous, current) {},
                 builder: (context, state) {
@@ -91,28 +110,28 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FloatingActionButton(
-                  heroTag: 'btn1`',
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).increment();
-                  },
-                  tooltip: 'Increment',
-                  child: const Icon(Icons.add),
-                ),
+                    heroTag: 'btn1`',
+                    onPressed: () {
+                      //BlocProvider.of<CounterCubit>(context).increment();
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add),
+                  ),
                 FloatingActionButton(
                   heroTag: 'btn2',
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
-                  },
-                  tooltip: 'Decrement',
-                  child: const Icon(Icons.minimize),
-                ),
+                    onPressed: () {
+                      //BlocProvider.of<CounterCubit>(context).decrement();
+                    },
+                    tooltip: 'Decrement',
+                    child: const Icon(Icons.minimize),
+                  ),
                 //Navigate Screen
               ],
-            ),
+            ),*/
             MaterialButton(
               onPressed: () {
                 Navigator.of(context).pushNamed('/second');
@@ -125,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.of(context).pushNamed('/third');
                 },
                 color: Colors.greenAccent,
-                child: const Text('Go to second screen'),
+                child: const Text('Go to second third'),
               )
             ],
           ),

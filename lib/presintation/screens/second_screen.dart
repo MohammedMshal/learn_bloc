@@ -82,7 +82,7 @@ class SecondScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn3',
                   onPressed:(){
-                    BlocProvider.of<CounterCubit>(context).increment();
+                    //BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
@@ -90,7 +90,7 @@ class SecondScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn4',
                   onPressed: (){
-                    BlocProvider.of<CounterCubit>(context).decrement();
+                    //BlocProvider.of<CounterCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
                   child: const Icon(Icons.minimize),

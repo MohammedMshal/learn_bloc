@@ -4,6 +4,7 @@ import 'package:learn_bloc/logic/cubit/counter_cubit/counter_cubit.dart';
 import 'package:learn_bloc/logic/cubit/interner_cubit/internet_cubit.dart';
 import 'package:learn_bloc/presintation/screens/home_screen.dart';
 import 'package:learn_bloc/presintation/screens/second_screen.dart';
+import 'package:learn_bloc/presintation/screens/third_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -28,7 +29,7 @@ class AppRoutes {
                 ));
       case Routes.thirdRoute:
         return MaterialPageRoute(
-            builder: ((context) =>  const HomeScreen(
+            builder: ((context) =>  const ThirdScreen(
                       title: 'third Screen', color: Colors.greenAccent)
                 ));
     }

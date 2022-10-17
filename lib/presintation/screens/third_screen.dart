@@ -87,7 +87,7 @@ class ThirdScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn5',
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).increment();
+                    //BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
@@ -95,7 +95,7 @@ class ThirdScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn6',
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
+                    //BlocProvider.of<CounterCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
                   child: const Icon(Icons.minimize),
