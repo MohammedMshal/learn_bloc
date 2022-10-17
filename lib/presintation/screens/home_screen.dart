@@ -13,26 +13,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: color,
-        title: Text(title),
-      ),
-      body: BlocListener<CounterCubit, CounterState>(
-        listener: (context, state) {
-          if (state.isIncrement == true) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Incremented!'),
-              duration: Duration(milliseconds: 300),
-            ));
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Decremented!'),
-              duration: Duration(milliseconds: 300),
-            ));
-          }
-        },
-        child: Center(
+    return BlocListener<InternetCubit, InternetState>(
+      listener: (context, state) {
+        if (state is InternetConnection &&
+            state.connectionType == ConnectionType.mobile) {
+          BlocProvider.of<CounterCubit>(context).decrement();
+        } else if (state is InternetConnection &&
+            state.connectionType == ConnectionType.wifi) {
+          BlocProvider.of<CounterCubit>(context).increment();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: color,
+          title: Text(title),
+        ),
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -40,15 +36,21 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, state) {
                   if (state is InternetConnection &&
                       state.connectionType == ConnectionType.mobile) {
-                    return const Text(
+                    return Text(
                       'Connection Mobile',
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                          color: Colors.red
+                      ),
                     );
-                  }else if (state is InternetConnection &&
-                      state.connectionType == ConnectionType.wifi){
-                    return const Text(
-                      'Connection Mobile',
+                  } else if (state is InternetConnection &&
+                      state.connectionType == ConnectionType.wifi) {
+                    return Text(
+                      'Connection WIFI',
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                        color: Colors.greenAccent
+                      ),
                     );
-                  }else {
+                  } else {
                     return const CircularProgressIndicator();
                   }
                 },
@@ -84,16 +86,15 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(
-          children: [
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            children: [
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
                   heroTag: 'btn1`',
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
@@ -119,14 +120,15 @@ class HomeScreen extends StatelessWidget {
               color: Colors.blue,
               child: const Text('Go to second screen'),
             ),
-            MaterialButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/third');
-              },
-              color: Colors.greenAccent,
-              child: const Text('Go to second screen'),
-            )
-          ],
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/third');
+                },
+                color: Colors.greenAccent,
+                child: const Text('Go to second screen'),
+              )
+            ],
+          ),
         ),
       ),
     );

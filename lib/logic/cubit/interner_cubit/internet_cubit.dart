@@ -24,14 +24,4 @@ monitorInternetConnection();
           } else if (connectivityResult == ConnectivityResult.none) {
             emit(InternetDisconnection());
           }
-
-
-          void internetConnection(ConnectionType connectionType) =>
-              emit(InternetConnection(connectionType));
-          void internetDisconnection() => emit(InternetDisconnection());
-          @override
-          Future<void> close() {
-            connectivityStreamSubscription!.cancel();
-            return super.close();
-          }
         });}}

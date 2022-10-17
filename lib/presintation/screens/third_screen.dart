@@ -17,21 +17,7 @@ class ThirdScreen extends StatelessWidget {
         backgroundColor: color,
         title: Text(title),
       ),
-      body: BlocListener<CounterCubit, CounterState>(
-        listener: (context, state) {
-          if (state.isIncrement == true) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Incremented!'),
-              duration: Duration(milliseconds: 300),
-            ));
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Decremented!'),
-              duration: Duration(milliseconds: 300),
-            ));
-          }
-        },
-        child: Center(
+      body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -39,13 +25,19 @@ class ThirdScreen extends StatelessWidget {
                 builder: (context, state) {
                   if (state is InternetConnection &&
                       state.connectionType == ConnectionType.mobile) {
-                    return const Text(
+                    return  Text(
                       'Connection Mobile',
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                        color: Colors.grey
+                      ),
                     );
                   }else if (state is InternetConnection &&
                       state.connectionType == ConnectionType.wifi){
-                    return const Text(
+                    return  Text(
                       'Connection Mobile',
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                          color: Colors.green
+                      ),
                     );
                   }else {
                     return const CircularProgressIndicator();
@@ -83,7 +75,7 @@ class ThirdScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(50.0),
         child: Column(
