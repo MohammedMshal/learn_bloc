@@ -27,14 +27,22 @@ class SecondScreen extends StatelessWidget {
                   if (state is InternetConnection &&
                       state.connectionType == ConnectionType.mobile) {
                     return const Text(
-                      'Connection Mobile',
+                      'Mobile',
                     );
                   }else if (state is InternetConnection &&
                       state.connectionType == ConnectionType.wifi){
                     return const Text(
-                      'Connection Mobile',
+                      'WIFI',
                     );
-                  }else {
+                  }else if (state is InternetConnection){
+                    return Text(
+                      'Disconnection',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3!
+                          .copyWith(color: Colors.grey),
+                    );
+                  } else {
                     return const CircularProgressIndicator();
                   }
                 },

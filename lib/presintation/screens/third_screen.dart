@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../constans/constans.dart';
 import '../../logic/cubit/counter_cubit/counter_cubit.dart';
 import '../../logic/cubit/interner_cubit/internet_cubit.dart';
@@ -23,27 +24,37 @@ class ThirdScreen extends StatelessWidget {
             children: <Widget>[
               BlocBuilder<InternetCubit, InternetState>(
                 builder: (context, state) {
-                  if (state is InternetConnection &&
-                      state.connectionType == ConnectionType.mobile) {
-                    return  Text(
-                      'Connection Mobile',
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                        color: Colors.grey
-                      ),
-                    );
-                  }else if (state is InternetConnection &&
-                      state.connectionType == ConnectionType.wifi){
-                    return  Text(
-                      'Connection Mobile',
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Colors.green
-                      ),
-                    );
-                  }else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              ),
+                if (state is InternetConnection &&
+                    state.connectionType == ConnectionType.mobile) {
+                  return Text(
+                    'Mobile',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.grey),
+                  );
+                } else if (state is InternetConnection &&
+                    state.connectionType == ConnectionType.wifi) {
+                  return Text(
+                    'WIFI',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.green),
+                  );
+                } else if (state is InternetConnection) {
+                  return Text(
+                    'Disconnection',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.grey),
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
               //Rebuild Screen with Bloc Builder
               BlocBuilder<CounterCubit, CounterState>(
                 //control rebuild widget
@@ -87,7 +98,7 @@ class ThirdScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn5',
                   onPressed: () {
-                    //BlocProvider.of<CounterCubit>(context).increment();
+                    BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
@@ -95,7 +106,7 @@ class ThirdScreen extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: 'btn6',
                   onPressed: () {
-                    //BlocProvider.of<CounterCubit>(context).decrement();
+                    BlocProvider.of<CounterCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
                   child: const Icon(Icons.minimize),
